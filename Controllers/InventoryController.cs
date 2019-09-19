@@ -65,17 +65,30 @@ namespace inventory.Controllers
             return entry;
         }
 
-        // [HttpGet]
-        // public ActionResult<IEnumerable<Item>> OutOfStock()
-        // {
-        //     var items = context.Items.Where(i => i.NumberInStock == 0).OrderByDescending(i => i.Name);
-        //     return items.ToList();
-        // }
+        [HttpGet("outofstock")]
+        public ActionResult OutOfStock()
+        {
+            var items = context.Items.Where(i => i.NumberInStock == 0).OrderByDescending(i => i.Name);
+            if (items == null)
+            {
+                return NotFound();
+            }
+            else { return Ok(items); }
+        }
 
-        // [HttpGet]
-        // public ActionResult<Item> SearchItem(int SKU)
-        // {
-        //     var item = 
-        // }
+        [HttpGet("sku/{SKU}")]
+        public ActionResult SearchItem(string SKU)
+        {
+            var item = context.Items.FirstOrDefault(i => i.SKU == SKU);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                return Ok(item);
+            }
+        }
     }
 }
